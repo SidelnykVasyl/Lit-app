@@ -1,0 +1,1 @@
+{"version":3,"file":"logo-element.d.ts","sourceRoot":"","sources":["src/logo-element.ts"],"names":[],"mappings":"AAAA,OAAO,EAAC,UAAU,EAA2B,MAAM,aAAa,CAAC;AAGjE,qBACa,YAAa,SAAQ,UAAU;IAC1C,MAAM,CAAC,MAAM,kCAgBX;IAEF,iBAAiB;IAIjB,MAAM;CASP;AAGD,OAAO,CAAC,MAAM,CAAC;IACb,UAAU,qBAAqB;QAC7B,cAAc,EAAE,YAAY,CAAC;KAC9B;CACF"}

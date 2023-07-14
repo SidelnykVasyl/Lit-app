@@ -1,0 +1,19 @@
+{
+    "payments": [
+        {
+            "title": "Paiement mensuel",
+            "price": "29.99€",
+            "discount": null,
+            "choose": "Je choisis le paiement mensuel",
+            "selected": false
+        },
+        {
+            "title": "Paiement annuel",
+            "price": "320€",
+            "discount": "Vous économisez 9.88€",
+            "choose": "Je choisis le paiement annuel",
+            "selected": false
+        }
+    ]    
+}
+  
