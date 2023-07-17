@@ -2,8 +2,6 @@ import {LitElement, html, customElement, css, property} from 'lit-element';
 
 @customElement('popup-element')
 class PopupElement extends LitElement {
-  @property({type: Number})
-  currentStep = 1;
   static styles = css`
     * {
       margin: 0;
@@ -42,32 +40,31 @@ class PopupElement extends LitElement {
       margin-top: 20px;
     }
   `;
+
+  @property({type: Number})
+  currentStep = 1;
+  @property({type: String})
+  currentLang = 'en';
   static properties = {
     currentStep: {type: Number},
   };
 
   constructor() {
     super();
-    this.currentStep = 1;
+    this.currentStep = 2 ;
   }
 
-
-//   connectedCallback() {
-//     super.connectedCallback();
-//     this.addEventListener('child-data', this.handleChildData);
-//   }
-
-//   disconnectedCallback() {
-//     super.disconnectedCallback();
-//     this.removeEventListener('child-data', this.handleChildData);
-//   }
-
-  handleChildData(event: CustomEvent) {
+  handleCurrentStep(event: CustomEvent) {
     const dataFromChild = event.detail.data;
-    this.currentStep = dataFromChild
+    // this.currentStep = dataFromChild;
     console.log('Received data from child:', dataFromChild);
   }
-  
+
+  handleCurrentLang(event: CustomEvent) {
+    const dataFromChild = event.detail.data;
+    this.currentLang = dataFromChild;
+    console.log('Received data from child:', dataFromChild);
+  }
 
   render() {
     return html`
@@ -75,18 +72,26 @@ class PopupElement extends LitElement {
         <div class="close-btn">
           <img src="/assets/close.svg" alt="#" />
         </div>
+        <language-toggle @child-data=${
+            this.handleCurrentLang
+          }></language-toggle>
         <div class="step ${this.currentStep === 1 ? 'active' : ''}">
-          <payment-method-element @child-data=${this.handleChildData}></payment-method-element>
+          <payment-method-element .currentLocale=${this.currentLang} @child-data=${
+            this.handleCurrentStep
+          }></payment-method-element>
         </div>
         <div class="step ${this.currentStep === 2 ? 'active' : ''}">
         <logo-element>
             Connexion
         </logo-element>
-        <login-element></login-element>
+        <login-element .currentLocale=${this.currentLang}></login-element>
     </my-element>
         </div>
         <div class="step ${this.currentStep === 3 ? 'active' : ''}">
-          <p>Step 3 content...</p>
+          <logo-element .currentLocale=${this.currentLang}>
+          Mot de passe oublié ?
+          </logo-element>
+          <forgot-pass-element></forgot-pass-elemt>
         </div>
         <div class="step ${this.currentStep === 4 ? 'active' : ''}">
           <p>Step 4 content...</p>

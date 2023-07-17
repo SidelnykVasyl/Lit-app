@@ -9,19 +9,17 @@ let PopupElement = class PopupElement extends LitElement {
     constructor() {
         super();
         this.currentStep = 1;
-        this.currentStep = 1;
+        this.currentLang = 'en';
+        this.currentStep = 2;
     }
-    //   connectedCallback() {
-    //     super.connectedCallback();
-    //     this.addEventListener('child-data', this.handleChildData);
-    //   }
-    //   disconnectedCallback() {
-    //     super.disconnectedCallback();
-    //     this.removeEventListener('child-data', this.handleChildData);
-    //   }
-    handleChildData(event) {
+    handleCurrentStep(event) {
         const dataFromChild = event.detail.data;
-        this.currentStep = dataFromChild;
+        // this.currentStep = dataFromChild;
+        console.log('Received data from child:', dataFromChild);
+    }
+    handleCurrentLang(event) {
+        const dataFromChild = event.detail.data;
+        this.currentLang = dataFromChild;
         console.log('Received data from child:', dataFromChild);
     }
     render() {
@@ -30,18 +28,22 @@ let PopupElement = class PopupElement extends LitElement {
         <div class="close-btn">
           <img src="/assets/close.svg" alt="#" />
         </div>
+        <language-toggle @child-data=${this.handleCurrentLang}></language-toggle>
         <div class="step ${this.currentStep === 1 ? 'active' : ''}">
-          <payment-method-element @child-data=${this.handleChildData}></payment-method-element>
+          <payment-method-element .currentLocale=${this.currentLang} @child-data=${this.handleCurrentStep}></payment-method-element>
         </div>
         <div class="step ${this.currentStep === 2 ? 'active' : ''}">
         <logo-element>
             Connexion
         </logo-element>
-        <login-element></login-element>
+        <login-element .currentLocale=${this.currentLang}></login-element>
     </my-element>
         </div>
         <div class="step ${this.currentStep === 3 ? 'active' : ''}">
-          <p>Step 3 content...</p>
+          <logo-element .currentLocale=${this.currentLang}>
+          Mot de passe oublié ?
+          </logo-element>
+          <forgot-pass-element></forgot-pass-elemt>
         </div>
         <div class="step ${this.currentStep === 4 ? 'active' : ''}">
           <p>Step 4 content...</p>
@@ -118,6 +120,9 @@ PopupElement.properties = {
 __decorate([
     property({ type: Number })
 ], PopupElement.prototype, "currentStep", void 0);
+__decorate([
+    property({ type: String })
+], PopupElement.prototype, "currentLang", void 0);
 PopupElement = __decorate([
     customElement('popup-element')
 ], PopupElement);

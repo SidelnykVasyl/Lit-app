@@ -1,0 +1,1 @@
+{"version":3,"file":"language-toggle.d.ts","sourceRoot":"","sources":["src/language-toggle.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,UAAU,EAAsC,MAAM,aAAa,CAAC;AAG7E,qBACa,cAAe,SAAQ,UAAU;IAE5C,gBAAgB,SAAQ;IAExB,aAAa,SAAM;IAGnB,MAAM,CAAC,MAAM,kCA2DX;;IAiBF,iBAAiB;IAcjB,YAAY;IAaZ,MAAM;CAaP;AACD,OAAO,CAAC,MAAM,CAAC;IACX,UAAU,qBAAqB;QAC7B,iBAAiB,EAAE,cAAc,CAAC;KACnC;CACF"}

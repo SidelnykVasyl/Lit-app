@@ -28,6 +28,7 @@ interface Payment {
 export declare class MyElement extends LitElement {
     static styles: import("lit-element").CSSResult[];
     selectedItemIndex: number;
+    currentLocale: string;
     payments: Payment[];
     count: number;
     isButtonEnabled: boolean;

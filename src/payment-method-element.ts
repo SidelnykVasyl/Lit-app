@@ -12,6 +12,7 @@
  * http://polymer.github.io/PATENTS.txt
  */
 import {LitElement, html, customElement, property, css} from 'lit-element';
+import i18next from './localization'
 
 interface Payment {
   title: string;
@@ -40,7 +41,7 @@ export class MyElement extends LitElement {
       .abonnement-header {
         display: flex;
         align-items: center;
-        margin-bottom: 13px;
+        margin: 20px 0px 13px -23px;
       }
 
       .abonnement-header img {
@@ -60,6 +61,7 @@ export class MyElement extends LitElement {
         display: flex;
         padding: 11px 0 11px 30px;
         font-size: 12px;
+        margin: 0px -12px;
       }
 
       .individual-package-title {
@@ -81,6 +83,7 @@ export class MyElement extends LitElement {
         align-items: center;
         flex: 1;
         text-align: center;
+        cursor: pointer
       }
       .card-top {
         margin-bottom: 30px;
@@ -122,6 +125,7 @@ export class MyElement extends LitElement {
         margin: 68px auto 0;
         display: block;
         font-size: 21px;
+        cursor: pointer
       }
       .payment .choose {
         font-size: 18px;
@@ -150,6 +154,7 @@ export class MyElement extends LitElement {
   ];
 
   selectedItemIndex: number;
+  @property() currentLocale = '';
 
   @property({type: Array})
   payments: Payment[] = [];
@@ -207,32 +212,43 @@ export class MyElement extends LitElement {
   }
 
   render() {
+    const individualKimPackageSubscription = i18next.t('individualKimPackageSubscription');
+    const goalkeeper = i18next.t('goalkeeper');
+    const accessToTheKimApplication = i18next.t('accessToTheKimApplication');
+    const unlimitedAccessToTutorialsAndPublicContent = i18next.t('unlimitedAccessToTutorialsAndPublicContent');
+    const theIndividualPackageIncludes = i18next.t('theIndividualPackageIncludes:');
+    const choisissezVotreModeDepaiement = i18next.t('choisissezVotreModeDepaiement');
+    const subscribe = i18next.t('subscribe');
+
+
+
     return html`
+      <h2>${this.currentLocale}</h2>
       <div class="abonnement-header">
         <div>
           <img src="/assets/hand.svg" alt="#" />
         </div>
         <div>
           <h2>
-            Abonnement Forfait KIM Individuel
+            ${individualKimPackageSubscription}
           </h2>
           <p>
-            (1 gardien de but)
+            ${goalkeeper}
           </p>
         </div>
       </div>
 
       <div class="individual-package">
         <div class="individual-package-title">
-          Le forfait individuel comprend :
+          ${theIndividualPackageIncludes}
         </div>
         <ul>
-          <li>Accès à l’application KIM</li>
-          <li>Accès illimité aux tutoriels et aux contenus publics</li>
+          <li>${accessToTheKimApplication}</li>
+          <li>${unlimitedAccessToTutorialsAndPublicContent}</li>
         </ul>
       </div>
       <div class="payment">
-        <p class="payment-title">Choisissez votre mode de paiement :</p>
+        <p class="payment-title">${choisissezVotreModeDepaiement}</p>
         <div class="payment-price">
           ${this.payments.map(
             (item, index) => html`
@@ -261,7 +277,7 @@ export class MyElement extends LitElement {
           class="subscribe-btn"
           ?disabled="${!this.isButtonEnabled}"
         >
-          S’abonner
+          ${subscribe}
         </button>
       </div>
       <div></div>

@@ -1,0 +1,15 @@
+{
+    "welcomeMessage": "Bonjour !",
+    "greeting": "Bienvenue dans mon application.",
+    "individualKimPackageSubscription": "Abonnement individuel au package KIM",
+    "goalkeeper": "(1 gardien de but)",
+    "accessToTheKimApplication": "Accès à l'application KIM",
+    "unlimitedAccessToTutorialsAndPublicContent": "Accès illimité aux tutoriels et aux contenus publics",
+    "theIndividualPackageIncludes:": "Le forfait individuel comprend :",
+    "choisissezVotreModeDepaiement": "Choisissez votre mode de paiement :",
+    "monthlyPayment": "Paiement mensuel",
+    "annualPayment": "Paiement annuel",
+    "iChooseTheMonthlyPayment": "Je choisis le paiement mensuel",
+    "iChooseTheAnnualPayment": "Je choisis le paiement annuel",
+    "subscribe": "S'abonner"
+  }

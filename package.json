@@ -37,14 +37,21 @@
   "author": "The Polymer Authors",
   "license": "BSD-3-Clause",
   "dependencies": {
+    "@lit/localize": "^0.11.4",
     "http-server": "^14.1.1",
+    "i18next": "^23.2.11",
+    "i18next-browser-languagedetector": "^7.1.0",
+    "i18next-http-backend": "^2.2.1",
     "json-server": "^0.17.3",
     "lit-element": "^2.3.1",
+    "lit-i18n": "^3.0.2",
+    "lit-localize": "^0.4.0",
     "rollup-plugin-lit-css": "^4.0.1"
   },
   "devDependencies": {
     "@11ty/eleventy": "^0.10.0",
     "@11ty/eleventy-plugin-syntaxhighlight": "^3.0.1",
+    "@lit/localize-tools": "^0.6.9",
     "@open-wc/testing": "^2.5.10",
     "@open-wc/testing-karma": "^3.3.11",
     "@rollup/plugin-babel": "^6.0.3",

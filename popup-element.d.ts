@@ -1,14 +1,16 @@
 import { LitElement } from 'lit-element';
 declare class PopupElement extends LitElement {
-    currentStep: number;
     static styles: import("lit-element").CSSResult;
+    currentStep: number;
+    currentLang: string;
     static properties: {
         currentStep: {
             type: NumberConstructor;
         };
     };
     constructor();
-    handleChildData(event: CustomEvent): void;
+    handleCurrentStep(event: CustomEvent): void;
+    handleCurrentLang(event: CustomEvent): void;
     render(): import("lit-element").TemplateResult;
     previousStep(): void;
     nextStep(): void;
