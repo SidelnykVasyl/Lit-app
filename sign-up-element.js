@@ -13,8 +13,14 @@ let MyElement = class MyElement extends LitElement {
         this.count = 0;
         this.password = '';
         this.strength = 0;
-        this.email = '';
+        this.email = 'sidelnyv@gmail.com';
+        this.firstName = '';
+        this.lastName = '';
+        this.city = '';
+        this.postalCode = '';
         this.emailFocused = false;
+        this.passwordFocused = false;
+        this.confirmPasswordFocused = false;
         this.hasError = false;
         this.confirmPassword = '';
         this.emailError = false;
@@ -24,16 +30,33 @@ let MyElement = class MyElement extends LitElement {
         this.acceptExclusiveOffers = false;
         this.acceptCGV = false;
         this.acceptPrivacyPolicy = false;
-        this.pay = 'FRANCE';
+        this.countryInputState = 'disabled';
+        this.country = 'FRANCE';
     }
     handleConfirmPasswordChange(event) {
         this.confirmPassword = event.target.value;
         this.validateConfirmPassword();
+        this.validatePassword();
+        this.updateFormValidity();
+    }
+    handleFirstNameChange(event) {
+        this.firstName = event.target.value;
+        this.updateFormValidity();
+    }
+    handleLastNameChange(event) {
+        this.lastName = event.target.value;
+        this.updateFormValidity();
+    }
+    handleCityChange(event) {
+        this.city = event.target.value;
+        this.updateFormValidity();
+    }
+    handlePostalCodeChange(event) {
+        this.postalCode = event.target.value;
         this.updateFormValidity();
     }
     validateConfirmPassword() {
-        this.confirmPasswordError = this.password === this.confirmPassword;
-        console.log(this.confirmPasswordError, ' confirmPasswordError');
+        this.confirmPasswordError = this.password !== this.confirmPassword;
         this.updateFormValidity();
     }
     validateEmail() {
@@ -47,11 +70,24 @@ let MyElement = class MyElement extends LitElement {
     }
     handleEmailFocus() {
         this.emailFocused = true;
-        console.log(this.emailFocused);
     }
     handleEmailBlur() {
         this.emailFocused = false;
         this.validateEmail();
+    }
+    handlePasswordFocus() {
+        this.passwordFocused = true;
+    }
+    handlePasswordBlur() {
+        this.passwordFocused = false;
+        this.validatePassword();
+    }
+    handleConfirmPasswordFocus() {
+        this.confirmPasswordFocused = true;
+    }
+    handleConfirmPasswordBlur() {
+        this.confirmPasswordFocused = false;
+        this.validateConfirmPassword();
     }
     showPassword() {
         const passwords = this.renderRoot.querySelectorAll('#password');
@@ -63,14 +99,18 @@ let MyElement = class MyElement extends LitElement {
         }
     }
     updateFormValidity() {
-        const isFieldsFilled = !!this.email && !!this.password && !!this.confirmPassword;
-        const errorExist = !this.emailError && !this.passwordError && !this.confirmPasswordError;
-        this.isFormValid = isFieldsFilled && !errorExist;
+        const isFieldsFilled = !!this.email &&
+            !!this.password &&
+            !!this.confirmPassword &&
+            !!this.firstName;
+        const noErrorExist = !this.emailError && !this.passwordError && !this.confirmPasswordError;
+        this.isFormValid = isFieldsFilled && noErrorExist;
     }
     handlePasswordChange(event) {
         this.password = event.target.value;
         this.strength = this.calculatePasswordStrength(this.password);
         this.validatePassword();
+        this.validateConfirmPassword();
         this.updateFormValidity();
     }
     handleExclusiveOffersChange(event) {
@@ -83,7 +123,8 @@ let MyElement = class MyElement extends LitElement {
         this.acceptPrivacyPolicy = event.target.checked;
     }
     validatePassword() {
-        this.passwordError = this.password.length < 4;
+        this.passwordError = !/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/.test(this.password);
+        console.log(this.passwordError);
     }
     async getDataFromAPI() {
         try {
@@ -117,6 +158,9 @@ let MyElement = class MyElement extends LitElement {
         if (/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})/.test(password)) {
             strength++;
         }
+        if (/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{12,}/.test(password)) {
+            strength++;
+        }
         if (password.length === 0) {
             strength = 0;
         }
@@ -129,6 +173,10 @@ let MyElement = class MyElement extends LitElement {
             exclusiveContent: this.acceptExclusiveOffers,
             cvg: this.acceptCGV,
             privacyPolicy: this.acceptPrivacyPolicy,
+            firstName: this.firstName,
+            lastName: this.lastName,
+            city: this.city,
+            postalCode: this.postalCode,
         };
         console.log(form);
     }
@@ -140,7 +188,12 @@ let MyElement = class MyElement extends LitElement {
         return html `
       <div class="sign-up">
         ${(this.emailError && !this.emailFocused) ||
-            (this.passwordError && !this.emailFocused)
+            (this.passwordError &&
+                !this.passwordFocused &&
+                !this.confirmPasswordFocused) ||
+            (this.confirmPasswordError &&
+                !this.passwordFocused &&
+                !this.confirmPasswordFocused)
             ? html `<span class="error-message">!!! ${incorrect} !!!</span>`
             : ''}
         <div class="wrapper">
@@ -160,8 +213,14 @@ let MyElement = class MyElement extends LitElement {
               <input
                 @input=${this.handlePasswordChange}
                 id="password"
-                class="password"
+                class=${this.passwordError &&
+            !this.passwordFocused &&
+            !this.confirmPasswordFocused
+            ? 'error password'
+            : 'password'}
                 type="password"
+                @focus=${this.handlePasswordFocus}
+                @blur=${this.handlePasswordBlur}
                 .value=${this.password}
                 required
               />
@@ -173,7 +232,13 @@ let MyElement = class MyElement extends LitElement {
                 .value=${this.confirmPassword}
                 @input=${this.handleConfirmPasswordChange}
                 type="password"
-                class="password"
+                @focus=${this.handleConfirmPasswordFocus}
+                @blur=${this.handleConfirmPasswordBlur}
+                class=${this.confirmPasswordError &&
+            !this.passwordFocused &&
+            !this.confirmPasswordFocused
+            ? 'error password'
+            : 'password'}
                 id="password"
                 required
               />
@@ -186,44 +251,55 @@ let MyElement = class MyElement extends LitElement {
               Sécurité de votre mot de passe
             </div>
             <div>
-              <div
-                class="indicator ${this.strength >= 1 ? 'bg-red' : ''}"
-              ></div>
-              <div
-                class="indicator ${this.strength >= 2 ? 'bg-red' : ''}"
-              ></div>
-              <div
-                class="indicator ${this.strength >= 3 ? 'bg-red' : ''}"
-              ></div>
-              <div
-                class="indicator ${this.strength >= 4 ? 'bg-red' : ''}"
-              ></div>
-              <div
-                class="indicator ${this.strength >= 5 ? 'bg-red' : ''}"
-              ></div>
-              <div
-                class="indicator ${this.strength >= 6 ? 'bg-red' : ''}"
-              ></div>
-              <div class="indicator"></div>
+            <div class="indicator ${this.strength > 0 ? this.strength > 0 && this.strength <= 3 ? 'weak' : 'strong' : ''} "></div>
+            <div class="indicator ${this.strength > 1 ? this.strength > 0 && this.strength <= 3 ? 'weak' : 'strong' : ''} "></div>
+            <div class="indicator ${this.strength >= 3 ? 'strong' : ''}"></div>
+            <div class="indicator ${this.strength >= 4 ? 'strong' : ''}"></div>
+            <div class="indicator ${this.strength >= 5 ? 'strong' : ''}"></div>
+            <div class="indicator ${this.strength >= 6 ? 'strong' : ''}"></div>
+            <div class="indicator ${this.strength >= 7 ? 'strong' : ''}"></div>
+
             </div>
           </div>
           <div class="right">
             <label>Votre Prénom</label>
-            <input type="email" />
+            <input
+              @input=${this.handleFirstNameChange}
+              .value=${this.firstName}
+              type="text"
+            />
             <label>Votre Nom</label>
-            <input type="email" />
+            <input
+              @input=${this.handleLastNameChange}
+              .value=${this.lastName}
+              type="text"
+            />
             <label>Votre Ville</label>
-            <input type="email" />
+            <input
+              @input=${this.handleCityChange}
+              .value=${this.city}
+              type="text"
+            />
             <label>Code postal</label>
-            <input type="email" />
-            <label>Pays</label>
-            <input type="text" disabled .value="${this.pay}">
+            <input
+              @input=${this.handlePostalCodeChange}
+              .value=${this.postalCode}
+              type="text"
+            />
+            <country-input
+              .state=${this.countryInputState}
+              .country=${this.country}
+            ></country-input>
           </div>
         </div>
         <div>
           <div class="checkbox">
-            <input  .checked=${this.acceptExclusiveOffers}
-              @change=${this.handleExclusiveOffersChange} id="first" type="checkbox" />
+            <input
+              .checked=${this.acceptExclusiveOffers}
+              @change=${this.handleExclusiveOffersChange}
+              id="first"
+              type="checkbox"
+            />
             <label for="first"
               >Oui, je souhaite recevoir des offres exclusives de la part de
               Kim.com</label
@@ -242,16 +318,24 @@ let MyElement = class MyElement extends LitElement {
             >
           </div>
           <div class="checkbox">
-            <input  .checked=${this.acceptPrivacyPolicy}
-              @change=${this.handlePrivacyPolicyChange} id="third" type="checkbox" />
+            <input
+              .checked=${this.acceptPrivacyPolicy}
+              @change=${this.handlePrivacyPolicyChange}
+              id="third"
+              type="checkbox"
+            />
             <label for="third"
               >En créant le compte client, vous acceptez notre politique de
               confidentialité</label
             >
           </div>
         </div>
-        <h2>${!this.isFormValid}</h2>
-        <button @click=${() => this.submitForm()} ?disabled=${!this.isFormValid}>Enregister</button>
+        <button
+          @click=${() => this.submitForm()}
+          ?disabled=${!this.isFormValid}
+        >
+          Enregister
+        </button>
       </div>
     `;
     }
@@ -294,8 +378,13 @@ MyElement.styles = [
         margin: 5px 7px 0 0;
       }
 
-      .bg-red {
-        background-color: red;
+      .weak {
+        background-color: #FF0000;
+        border: none;
+      }
+
+      .strong {
+        background-color: #00FF45;
         border: none;
       }
 
@@ -310,7 +399,7 @@ MyElement.styles = [
 
       img {
         position: absolute;
-        right: 0;
+        right: 25px;
         top: 50%;
         transform: translateY(-50%);
       }
@@ -402,8 +491,26 @@ __decorate([
     property({ type: String })
 ], MyElement.prototype, "email", void 0);
 __decorate([
+    property({ type: String })
+], MyElement.prototype, "firstName", void 0);
+__decorate([
+    property({ type: String })
+], MyElement.prototype, "lastName", void 0);
+__decorate([
+    property({ type: String })
+], MyElement.prototype, "city", void 0);
+__decorate([
+    property({ type: String })
+], MyElement.prototype, "postalCode", void 0);
+__decorate([
     property({ type: Boolean })
 ], MyElement.prototype, "emailFocused", void 0);
+__decorate([
+    property({ type: Boolean })
+], MyElement.prototype, "passwordFocused", void 0);
+__decorate([
+    property({ type: Boolean })
+], MyElement.prototype, "confirmPasswordFocused", void 0);
 __decorate([
     property({ type: Boolean })
 ], MyElement.prototype, "hasError", void 0);
@@ -433,7 +540,10 @@ __decorate([
 ], MyElement.prototype, "acceptPrivacyPolicy", void 0);
 __decorate([
     property({ type: String })
-], MyElement.prototype, "pay", void 0);
+], MyElement.prototype, "countryInputState", void 0);
+__decorate([
+    property({ type: String })
+], MyElement.prototype, "country", void 0);
 MyElement = __decorate([
     customElement('sign-up-element')
 ], MyElement);

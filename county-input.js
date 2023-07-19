@@ -8,34 +8,54 @@ import { LitElement, html, customElement, property, css } from 'lit-element';
 let MyElement = class MyElement extends LitElement {
     constructor() {
         super(...arguments);
-        this.count = 0;
+        this.state = '';
+        this.country = '';
     }
     connectedCallback() {
         super.connectedCallback();
     }
     render() {
         return html `
-      <div class="wrapper">
-        <p>
-          Pas de soucis, indiquez votre email et nous vous enverrons un lien
-          vous permettant de ressaisir votre mot de passe.
-        </p>
-        <div class="address">
-        <label>Votre adresse email</label>
-        <input type="email" />
-        <button>
-          Envoyer
-        </button>
-        </div>
-      </div>
+      ${this.state === 'disabled'
+            ? html `
+              <label class="country-label">Pays</label>
+              <input class="country-input" type="text" disabled .value=${this.country}>`
+            : html `
+            <select>
+                <option>FRANCE</option>
+                <option>SWITZERLAND</option>
+                <option>EU</option>
+            </select> 
+        >`}
     `;
     }
 };
 MyElement.styles = css `
+  input:disabled {
+    border: none;
+    pointer-events: none;
+    background: inherit;
+    color: #707070;
+  }
+
+  .country-input {
+    font-size: 14px;
+  }
+
+  .country-label {
+    font-size: 12px;
+    display: block;
+    margin: 5px 0;
+  }
+
+  
   `;
 __decorate([
-    property({ type: Number })
-], MyElement.prototype, "count", void 0);
+    property()
+], MyElement.prototype, "state", void 0);
+__decorate([
+    property()
+], MyElement.prototype, "country", void 0);
 MyElement = __decorate([
     customElement('country-input')
 ], MyElement);

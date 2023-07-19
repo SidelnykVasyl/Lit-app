@@ -1,7 +1,8 @@
 import { LitElement } from 'lit-element';
 export declare class MyElement extends LitElement {
     static styles: import("lit-element").CSSResult;
-    count: number;
+    state: string;
+    country: string;
     connectedCallback(): void;
     render(): import("lit-element").TemplateResult;
 }
