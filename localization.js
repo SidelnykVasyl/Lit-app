@@ -34,7 +34,8 @@ i18next
                 "createYourAccountInAFewClicks": "Create your account in a few clicks :",
                 "toLogIn": "To log in",
                 "createAnAccount": "Create an account",
-                "forgotPass": "Forgot your password ?"
+                "forgotPass": "Forgot your password ?",
+                "incorrect": "Invalid E-mail address or password"
             }
         },
         fr: {
@@ -61,7 +62,8 @@ i18next
                 "createYourAccountInAFewClicks": "Créez votre compte en quelques clics :",
                 "toLogIn": "Pour vous connecter",
                 "createAnAccount": "Créer un compte",
-                "forgotPass": "Mot de passe oublié ?"
+                "forgotPass": "Mot de passe oublié ?",
+                "incorrect": "Adresse e-mail ou mot de passe invalide"
             }
         },
     }

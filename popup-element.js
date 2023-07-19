@@ -10,7 +10,7 @@ let PopupElement = class PopupElement extends LitElement {
         super();
         this.currentStep = 1;
         this.currentLang = 'en';
-        this.currentStep = 2;
+        this.currentStep = 3;
     }
     handleCurrentStep(event) {
         const dataFromChild = event.detail.data;
@@ -41,9 +41,10 @@ let PopupElement = class PopupElement extends LitElement {
         </div>
         <div class="step ${this.currentStep === 3 ? 'active' : ''}">
           <logo-element .currentLocale=${this.currentLang}>
-          Mot de passe oublié ?
+          Création de compte
           </logo-element>
-          <forgot-pass-element></forgot-pass-elemt>
+         <sign-up-element>
+         </sign-up-element>
         </div>
         <div class="step ${this.currentStep === 4 ? 'active' : ''}">
           <p>Step 4 content...</p>

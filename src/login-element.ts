@@ -1,7 +1,9 @@
 import {LitElement, html, customElement, property, css} from 'lit-element';
 import {classMap} from 'lit-html/directives/class-map';
 import {ResetStylesElement} from './reset.styles';
-import i18next from './localization'
+import i18next from './localization';
+import {msg} from '@lit/localize';
+
 @customElement('login-element')
 export class LoginElement extends LitElement {
   @property() currentLocale = '';
@@ -189,6 +191,7 @@ export class LoginElement extends LitElement {
     const forgotPass = i18next.t('forgotPass');
 
     return html`
+      <!-- msg('Hello World'); -->
       <p>
         ${identifier}
         ${this.showError

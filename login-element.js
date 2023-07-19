@@ -70,6 +70,7 @@ let LoginElement = class LoginElement extends LitElement {
         const incorrect = i18next.t('incorrect');
         const forgotPass = i18next.t('forgotPass');
         return html `
+      <!-- msg('Hello World'); -->
       <p>
         ${identifier}
         ${this.showError
